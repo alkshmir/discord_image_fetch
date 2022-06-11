@@ -6,5 +6,5 @@ download images in the discord log html obtained by discordchatexporter.
 - wget
 ## usage
 - get log html by [DiscordChatExporter](https://github.com/Tyrrrz/DiscordChatExporter)
-- move log html `original_html`
+- move log html `original_html` directory
 - execute `./gazou_hozon.sh`
