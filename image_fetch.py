@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
         urls = [m[0] for m in matched]
         img_filenames = [re.match(".+/(.+?)([\?#;].*)?$", url)[1] for url in urls]
-        new_html_filename = backup_dir + '/' + os.path.splitext(os.path.basename(in_html))[0] + '_bak.html'
+        new_html_filename = image_dir + '/' + os.path.splitext(os.path.basename(in_html))[0] + '_bak.html'
         new_html = s
 
         already_written_files = []
@@ -52,10 +52,11 @@ if __name__ == "__main__":
             path = image_dir + '/' + fn
             path = duplicate_rename(path, already_written_files)
             already_written_files.append(path)
-            #os.system("wget {} -O '{}'".format(url, path))
+            if not os.path.exists(path):
+                os.system("wget {} -O '{}'".format(url, path))
 
             # htmlから見た画像ディレクトリの場所
-            image_path_from_html = os.path.splitext(os.path.basename(in_html))[0] + '/' + os.path.basename(path)
+            image_path_from_html = os.path.basename(path)
             new_html = new_html.replace(url, image_path_from_html)
 
     # write new html
