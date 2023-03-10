@@ -38,11 +38,13 @@ if __name__ == "__main__":
 
     os.makedirs(image_dir, exist_ok=True)
     with open(in_html, 'r') as f:
+        print(f"Opening {in_html}")
         s = f.read()
         
-        matched = re.findall(r'src=\"(https?://cdn.discordapp\.com/attachments/.+\.(jpg|png|JPG|PNG))\"', s)
+        matched = re.findall(r'src=\"?(https?://cdn\.discordapp\.com/attachments/.+\.(jpg|png|JPG|PNG))\"?\salt', s)
 
         urls = [m[0] for m in matched]
+        print(f"Found {len(urls)} images.")
         img_filenames = [re.match(".+/(.+?)([\?#;].*)?$", url)[1] for url in urls]
         new_html_filename = image_dir + '/' + os.path.splitext(os.path.basename(in_html))[0] + '_bak.html'
         new_html = s
@@ -53,6 +55,7 @@ if __name__ == "__main__":
             path = duplicate_rename(path, already_written_files)
             already_written_files.append(path)
             if not os.path.exists(path):
+                print(f"Downloading {url} to {path}")
                 os.system("wget {} -O '{}'".format(url, path))
 
             # htmlから見た画像ディレクトリの場所
